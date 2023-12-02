@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Hedvig+Letters+Sans&display=swap');
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Hedvig Letters Sans;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.resultText {
+    font-size: "12px";
+}

@@ -1,3 +1,6 @@
+const resultContainer = document.querySelector("#resultsContainer")
+let results = []
+
 function getComputerChoice() {
   const choices = ["rock", "paper", "scissors"];
   const rand = Math.floor(Math.random() * choices.length);
@@ -12,7 +15,7 @@ function getPlayersChoice() {
 }
 
 function play(playersChoice, computersChoice) {
-  const pChoice = playersChoice;
+  const pChoice = playersChoice.toLowerCase();
   var winner = null;
 
   if (pChoice === computersChoice) {
@@ -29,32 +32,39 @@ function play(playersChoice, computersChoice) {
     result = "You Lose.. " + computersChoice + " beats " + pChoice;
     winner = "Computer";
   }
-  console.log(result);
-  return winner;
+  const score = determineWinner(winner)
+
+  const resultElement = document.querySelector("#resultText")
+  resultElement.textContent = result
+  resultContainer.appendChild(resultElement)
+
+  const matchResults = document.querySelector("#gameResultText")
+  matchResults.textContent = score
+  resultContainer.appendChild(matchResults)
 }
 
-function determineWinner(results) {
+function determineWinner(winner) {
+  results.push(winner)
+
   const pWins = results.filter((v) => v === "Player").length;
   const cpuWins = results.filter((v) => v === "Computer").length;
-  if (pWins > cpuWins) {
-    console.log("You Won!");
-  } else if (cpuWins > pWins) {
-    console.log("Computer Won...");
-  } else {
-    console.log("Its a Tie!");
+  var res = null
+  if (pWins === 5) {
+    var res = (`You Won! ${pWins} to ${cpuWins}`);
+    results = []
+  } else if (cpuWins === 5) {
+    var res = (`Computer Won ${cpuWins} to ${pWins}`);
+    results = []
   }
+  return res
 }
 
-function game() {
-  var rounds = 0;
-  const result = [];
-  while (rounds < 5) {
-    rounds += 1;
-    var g = play(getPlayersChoice(), getComputerChoice());
-    result.push(g);
-  }
-  console.log(result);
-  determineWinner(result);
-}
+const buttons = document.querySelectorAll("#btn")
 
-game();
+buttons.forEach((button) => {
+  button.addEventListener('click', (e) => {
+    console.log(e)
+    const choice = e.target.innerText
+    const g = play(choice, getComputerChoice())
+  })
+})
